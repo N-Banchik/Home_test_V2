@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Home_Test_V2
+  version: 1.0.0
+  description: REST API for performing mathematical operations on two numbers via POST, with operation specified in HTTP header and JWT authorization.
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+paths:
+  /api/calculate:
+    post:
+      summary: Perform arithmetic operation
+      description: Calculates result of two numbers based on the operation specified in the X-Operation header. Requires JWT authorization. Numbers are provided as strings and parsed to doubles (supports standard and E-notation, e.g., '4E2').
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: X-Operation
+          in: header
+          required: true
+          schema:
+            type: string
+            enum: [add, subtract, multiply, divide, '+', '-', '*', '/']
+          description: The arithmetic operation to perform (e.g., 'add' or '+').
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MathOpRequest'
+      responses:
+        '200':
+          description: Successful calculation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationResponse'
+        '400':
+          description: Invalid input, operation, or division by zero
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized (invalid or expired JWT)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    MathOpRequest:
+      type: object
+      required:
+        - Number1
+        - Number2
+      properties:
+        Number1:
+          type: string
+          description: First number as a string, parsed to double (e.g., '10.5', '4E2').
+          example: "10.5"
+        Number2:
+          type: string
+          description: Second number as a string, parsed to double (e.g., '5.2', '2E3').
+          example: "5.2"
+    CalculationResponse:
+      type: object
+      properties:
+        Result:
+          type: number
+          format: double
+          description: The result of the arithmetic operation.
+          example: 15.7
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing the issue.
+          example: "Invalid operation. Allowed: add (+), subtract (-), multiply (*), divide (/)."
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token with expiration claim (exp) required for authentication.

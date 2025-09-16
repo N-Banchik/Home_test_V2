@@ -1,4 +1,5 @@
 ﻿using Home_test_V1.Exceptions;
+using Home_test_V1.Models;
 using Home_test_V1.Models.Interfaces;
 using Home_test_V1.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace Home_test_V1.Controllers
     /// Controller for performing arithmetic operations via a POST request.
     /// Inherits from BaseApiController, which enforces JWT authorization.
     /// </summary>
+    /// <description>Calculates result of two numbers based on the operation specified in the X-Operation header. Requires JWT authorization. Numbers are provided as strings and parsed to doubles (supports standard and E-notation, e.g., '4E2').</description>
     public class CalculateController : BaseApiController
     {
         private readonly IMathOpService _mathOpService;
@@ -45,7 +47,7 @@ namespace Home_test_V1.Controllers
             try
             {
                 var result = await _mathOpService.Calculate(request.Number1, request.Number2, operation!);
-                return Ok(new { Result = result });
+                return Ok(new CalculationResponse { Result = result });
             }
             catch (Exception ex)
             {
