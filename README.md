@@ -22,10 +22,10 @@ This is a .NET Core 8 REST API that performs arithmetic operations (add, subtrac
 In the project root directory (where `Dockerfile` and `docker-compose.yml` are located), run:
 
 ```bash
-docker build -t arithmetic-api .
+docker build -t Home_test_V1 .
 ```
 
-This builds the Docker image named `arithmetic-api`.
+This builds the Docker image named `Home_test_V1`.
 
 ### 2. Run with Docker Compose
 
@@ -53,7 +53,7 @@ Check that the container is running:
 docker ps
 ```
 
-You should see a container named `arithmetic-api`.
+You should see a container named `Home_test_V1`.
 
 ## Testing the API with Postman
 
