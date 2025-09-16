@@ -1,4 +1,4 @@
-# Arithmetic API
+# Home_test_V2 API
 
 This is a .NET Core 8 REST API that performs arithmetic operations (add, subtract, multiply, divide) on two numbers provided via a POST request. The operation is specified in the `X-Operation` header, and the API requires JWT authorization. The project is containerized using Docker and includes unit tests, XML documentation, and Swagger integration.
 
