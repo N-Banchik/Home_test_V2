@@ -1,0 +1,10 @@
+
+ 
+services:
+  home_test_v1:
+    image: ${DOCKER_REGISTRY-}hometestv1
+    build:
+      context: src\Home_test_V1
+      dockerfile: Dockerfile
+    
+  
